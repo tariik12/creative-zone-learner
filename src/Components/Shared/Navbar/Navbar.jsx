@@ -1,16 +1,45 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation} from "react-router-dom";
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
+  const [scrolling, setScrolling] = useState(false);
+  const location = useLocation();
+  const activeRoute = location.pathname;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setScrolling(true);
+      } else {
+        setScrolling(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const isRouteActive = (route) => {
+    return activeRoute === route ? 'active-link' : ' ';
+  };
   return (
-    <div>
-      <nav className="w-full bg-white shadow">
-        <div className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
+    <div className="fixed z-30 w-full md:top-0 ">
+      <nav className={`navbar ${
+      scrolling ? 'bg-black  font-bold w-full ' : 'bg-[#2b252529] text-white w-full  '
+    }`} >
+        <div  className="justify-between px-4 mx-auto lg:max-w-7xl md:items-center md:flex md:px-8">
           <div>
             <div className="flex items-center justify-between py-3 md:py-5 md:block">
               <Link to="/">
-                <h2 className="text-2xl font-bold">Creative Zone</h2>
+                <h2  ><span className={`navbar ${
+      scrolling ? '   text-2xl text-white font-bold' : 'text-[#FF5900]  text-2xl font-bold '
+    }`}>Creative</span> <span className={`navbar ${
+        scrolling ? ' text-[#FF5900]  w-full text-2xl font-bold' : ' text-white  text-2xl font-bold '
+      }`}>Zone</span></h2>
               </Link>
               <div className="md:hidden">
                 <button
@@ -52,24 +81,24 @@ const Navbar = () => {
           </div>
           <div>
             <div
-              className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
+              className={`flex-1 justify-self-center p-3  md:block md:pb-0 md:mt-0 bg-black md:bg-transparent ${
                 navbar ? "block" : "hidden"
               }`}
             >
-              <ul className="items-center text-lg justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-                <li className="text-gray-600 hover:text-orange-600">
+              <ul className="items-center text-lg justify-center space-y-8 md:flex md:space-x-6 md:space-y-0 ">
+                <li  className={`nav-link md:text-xl font-bold uppercase text-white  border-b-0 hover:border-b-4 border-orange-600 ${isRouteActive('/')}`}>
                   <Link to="/">Home</Link>
                 </li>
-                <li className="text-gray-600 hover:text-orange-600">
-                  <Link to="/">Blog</Link>
+                <li>
+                  <Link  to="/"  className={`nav-link md:text-xl font-bold uppercase text-white  border-b-0 hover:border-b-4 border-orange-600 ${isRouteActive('/')}`}>Blog</Link>
                 </li>
-                <li className="text-gray-600 hover:text-orange-600">
+                <li className={`nav-link md:text-xl font-bold uppercase text-white  border-b-0 hover:border-b-4 border-orange-600 ${isRouteActive('/')}`}>
                   <Link to="/">About US</Link>
                 </li>
-                <li className="text-gray-600 hover:text-orange-600">
+                <li  className={`nav-link md:text-xl font-bold uppercase text-white  border-b-0 hover:border-b-4 border-orange-600 ${isRouteActive('/')}`}>
                   <Link to="/">Contact US</Link>
                 </li>
-                <li className="text-gray-600 hover:text-orange-600">
+                <li  className={`nav-link md:text-xl font-bold uppercase text-white  border-b-0 hover:border-b-4 border-orange-600 ${isRouteActive('/')}`}>
                   <Link className="flex lg:hidden" to="/login">
                     <button>Login</button>
                   </Link>
