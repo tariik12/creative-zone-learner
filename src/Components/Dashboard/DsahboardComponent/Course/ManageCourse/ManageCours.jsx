@@ -15,7 +15,7 @@ const ManageCourse = () => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("http://localhost:5000/createCourse/");
+        const response = await axios.get("https://creative-zone-learners-servers.vercel.app/createCourse/");
         setUserData(response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);

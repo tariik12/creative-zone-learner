@@ -37,7 +37,7 @@ console.log(data)
 
 
 axios
-      .post("http://localhost:5000/createCourse", data)
+      .post("https://creative-zone-learners-servers.vercel.app/createCourse", data)
       .then((res) => {
         console.log(res.data);
         alert("done");
