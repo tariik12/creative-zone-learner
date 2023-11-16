@@ -10,7 +10,7 @@ const Navbar = () => {
   const {user} = useContext(AuthContext)|| {}
  
   return (
-    <div>
+    <div className="w-full">
       <nav className="w-full bg-white shadow">
         <div className="justify-between px-4 mx-auto lg:max-w-screen-2xl md:items-center md:flex md:px-8">
           <div>

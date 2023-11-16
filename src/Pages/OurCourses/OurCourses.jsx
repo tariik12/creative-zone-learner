@@ -57,7 +57,7 @@ const OurCourses = () => {
       <div className="my-10">
         <h1 className="text-4xl font-bold text-orange-600">Our Courses</h1>
 
-        <section className="grid grid-cols-3 gap-20 my-10 justify-center">
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6 my-10 justify-center">
           <Link to="" className="shadow-xl px-10 py-14" onClick={() => handleFiltering("All")}>
             <div className="flex justify-center">
               <span className="text-4xl">🌟</span>
@@ -78,9 +78,9 @@ const OurCourses = () => {
           Are you ready to admit
         </h2>
 
-        <section className="grid grid-cols-3 gap-20 mt-20">
+        <section className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-6 mt-20">
           {filterData.map((course) => (
-            <div className="rounded-xl shadow-md w-[400px] border-2" key={course._id}>
+            <div className="rounded-xl shadow-md w-full sm:w-full md:w-[400px] lg:w-[400px] xl:w-[400px] border-2" key={course._id}>
               <img className="w-full h-72 rounded-t-2xl" src={course?.image} alt="" />
               <div className="p-4">
                 <h2 className="text-orange-600 text-lg font-bold">All Courses</h2>
@@ -92,7 +92,13 @@ const OurCourses = () => {
 
                 <div className="my-4 flex justify-between items-center">
                   <p className="text-xl text-gray-600 font-bold">Course Fee {course?.courseFee}</p>
-                  <button>Get Admit</button>
+                  
+                </div>
+                <div className=" flex justify-center items-center gap-4">
+                <button>Add Card</button>
+                  <Link to={`/our-courses/${course._id}`}>
+  <button>Course Details</button>
+</Link>
                 </div>
               </div>
             </div>

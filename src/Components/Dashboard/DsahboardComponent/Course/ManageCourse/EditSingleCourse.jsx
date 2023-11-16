@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLoaderData } from "react-router-dom";
-import useAuth from "../../../../../Hooks/useAuth";
+
 import Breadcrumb from "../../../BreadCrumb/Breadcrumb";
 import CreatableSelect from "react-select/creatable";
+import { AuthContext } from "../../../../../Provider/AuthProvider";
 
 const options = [
   { value: "Daily 6:30 am - 11:00 am", label: "Daily 6:30 am - 11:00 am" },
@@ -19,7 +20,7 @@ const EditSingleCourse = () => {
 
   const { register, handleSubmit, reset } = useForm();
   const [syllabus, setSyllabus] = useState(null);
-  const { user } = useAuth();
+ const {user} = useContext(AuthContext())
   const img_hosting_url = `https://api.imgbb.com/1/upload?expiration=600&key=${image_hosting_Token}`;
 
   const onSubmit = (data) => {

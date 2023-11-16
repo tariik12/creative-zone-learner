@@ -613,7 +613,7 @@ useEffect(() =>{
                           pathname.includes('selectedClass') && 'bg-graydark dark:bg-meta-4'
                         }`}
                       >
-                       Payment History
+                       favorite courses
                       </Link>
                   </li>
                   <li>
@@ -634,8 +634,8 @@ useEffect(() =>{
                           pathname.includes('paymentHistory') && 'bg-graydark dark:bg-meta-4'
                         }`}
                       >
-                       
-                    Selected Course
+                       Payment History
+                     
                       </Link>
                   </li>
                   </ul></>}                 

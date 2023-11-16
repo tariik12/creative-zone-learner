@@ -4,6 +4,7 @@ import Title from "../Title/Title";
 
 const Footer = () => {
     return (
+        
         <div>
             <div>
                 <Title title="Admission Is Going on"></Title>

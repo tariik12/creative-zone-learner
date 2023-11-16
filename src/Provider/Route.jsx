@@ -17,6 +17,8 @@ import PaymentHistory from "../Components/Dashboard/DsahboardComponent/PaymentHi
 import MassageWithInstructors from "../Components/Dashboard/DsahboardComponent/MassageWithInstructor.jsx/MassageWithInstructor";
 import SelectedClasses from "../Components/Dashboard/DsahboardComponent/SelectedClasses/SelectedClasses";
 import Error from "../Pages/Error/Error";
+import SingleCourseDetails from "../Pages/OurCourses/SingleCourseDetails";
+import EditSingleCourse from "../Components/Dashboard/DsahboardComponent/Course/ManageCourse/EditSingleCourse";
 
 
 export const router = createBrowserRouter([
@@ -35,6 +37,15 @@ export const router = createBrowserRouter([
       {
         path: "/our-courses",
         element: <OurCourses />,
+      },
+      {
+        path: "/our-courses/:id",
+        element: <SingleCourseDetails />,
+      },
+      {
+        path: "/dashboard/manageCourse/:id",
+        element: <EditSingleCourse />,
+        loader: ({params}) => fetch(`https://creative-zone-learners-servers.vercel.app/createCourse/${params.id}`)
       },
       {
         path: "/contact",

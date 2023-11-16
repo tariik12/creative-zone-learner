@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Container from "../../Components/Shared/Container/Container";
-import { useLoaderData } from "react-router-dom";
+import {  useParams } from "react-router-dom";
 import "@smastrom/react-rating/style.css";
 import { Rating } from "@smastrom/react-rating";
 import img1 from '../../assets/courses/singlecourse/img1.png'
@@ -51,58 +51,91 @@ const SingleCourseDetails = () => {
         },
     ]
 
-  const data = useLoaderData();
-  console.log(data);
+    const { id } = useParams();
+    const [courseDetails, setCourseDetails] = useState(null);
+    useEffect(() => {
+      const fetchCourseDetails = async () => {
+        try {
+          const response = await fetch(`https://creative-zone-learners-servers.vercel.app/createCourse/${id}`);
+          if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+          }
+          const courseDetails = await response.json();
+          setCourseDetails(courseDetails);
+        } catch (error) {
+          console.error('Error fetching course details:', error);
+        }
+      };
+  
+      fetchCourseDetails();
+    }, [id]);
+  
+    if (!courseDetails) {
+      return <p>Loading...</p>;
+    }
+    console.log(courseDetails)
   return (
     <Container>
-      <div className="my-14 grid grid-cols-2">
-        <div>
-          <h2 className="text-orange-600 text-2xl font-bold">
+      <div className="my-14 grid md:grid-cols-2 ">
+  {/* Right side (order-2 on mobile, default order on desktop) */}
+  <div className={`md:order-2 ${''}`}>
+    <img className="md:w-[700px] mx-auto h-[400px]" src={courseDetails?.image} alt="" />
+    <div className="bg-[#FAFDF1] rounded-2xl my-10 py-10 text-center">
+      <h2 className="text-2xl font-semibold">Instructor Info</h2>
+      <h2 className="text-xl font-bold my-3">{courseDetails?.instructorName}</h2>
+      <a href={courseDetails?.instructorEmail}>{courseDetails?.instructorEmail}</a>
+    </div>
+  </div>
+
+  {/* Left side (default order on mobile, order-2 on desktop) */}
+  <div className={`${'df'}`}>
+  <div>
+          <h2 className="text-orange-600 text-2xl font-bold md:text-left text-center">
             Turn Your Passion into a Profession
           </h2>
-          <h1 className="text-3xl font-bold my-4 ">
-            {data?.courseName}
+          <h1 className="text-3xl font-bold my-4  md:text-left text-center">
+            {courseDetails?.courseName}
           </h1>
-          <div className="flex text-center text-2xl font-semibold gap-6">
-            <div className="p-6 border-2 shadow-md">
-              Duration <br /> {data?.courseDuration} Month
+          <div className="md:flex text-center text-2xl font-semibold gap-6">
+            <div className="p-6 border-2 shadow-md md:w-full w-1/2 mx-auto mb-2 md:0">
+              Duration <br /> {courseDetails?.courseDuration} Month
             </div>
-            <div className="p-6 border-2 shadow-md">
-              Lectures <br /> {data?.lecture}
+            <div className="p-6 border-2 shadow-md md:w-full w-1/2 mx-auto mb-2">
+              Lectures <br /> {courseDetails?.lecture}
             </div>
-            <div className="p-6 border-2 shadow-md">
-              Projects <br /> {data?.project}
+            <div className="p-6 border-2 shadow-md md:w-full w-1/2 mx-auto mb-2">
+              Projects <br /> {courseDetails?.project}
             </div>
-            <div className="p-6 border-2 shadow-md">
-              Fee <br /> {data?.courseFee} BDT
+            <div className="p-6 border-2 shadow-md md:w-full w-1/2 mx-auto mb-2 md:me-2">
+              Fee <br /> {courseDetails?.courseFee} BDT
             </div>
           </div>
-          <p className="text-gray-600 my-6 text-xl">{data?.CourseBio}</p>
+          <p className="text-gray-600 my-6 text-xl md:text-left text-center">{courseDetails?.CourseBio}</p>
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 md:justify-stretch justify-center">
             <div>
               <button>Admission</button>
               <Rating
                 className="mt-2"
                 style={{ maxWidth: 70 }}
-                value={data?.ratings || 0}
+                value={courseDetails?.ratings || 0}
                 readOnly
               />{" "}
             </div>
             <div>
               <button>Join free seminar</button>
-              <p className="mt-2">Total Student {data?.enrolled || 0}</p>
+              <p className="mt-2">Total Student {courseDetails?.enrolled || 0}</p>
             </div>
           </div>
           {/* overview */}
-          <h2 className="text-4xl font-bold my-4">Course Overview</h2>
-          <p className="text-xl text-gray-600">{data?.courseOverView}</p>
+          <h2 className="text-4xl font-bold my-4 md:text-left text-center">Course Overview</h2>
+          <p className="text-xl text-gray-600 md:text-left text-center">{courseDetails?.courseOverView}</p>
 
           {/* curriculumn */}
           <div className="bg-[#FAF9FD] my-14 p-6 w-[700px] ">
             <h2 className="text-4xl font-bold my-4">Course Curriculum</h2>
             <div className="grid md:grid-cols-2">
-              {data?.syllabus.map((d, i) => (
+              {courseDetails?.syllabus.map((d, i) => (
                 <li key={i}>{d?.value}</li>
               ))}
             </div>
@@ -111,11 +144,11 @@ const SingleCourseDetails = () => {
           {/* Exclusive Solutions That Set Us Apart */}
 
           <h2 className="text-4xl font-bold my-4">Exclusive Solutions That Set Us Apart</h2>
-          <div className="grid grid-cols-2 gap-10 justify-center">
+          <div className="grid md:grid-cols-2 gap-10 justify-center">
             {
                 whychooseus.map((d,i) => (
                     <div key={i} className="bg-[#FAFDF1] rounded-2xl p-10">
-                        <div className="flex justify-center">
+                        <div className="md:flex justify-center">
                         <img src={d?.icon} alt="" />
                         </div>
                         <h2 className="text-center text-2xl font-bold my-4">{d?.name}</h2>
@@ -125,16 +158,8 @@ const SingleCourseDetails = () => {
             }
           </div>
         </div>
-        {/* Right side */}
-        <div className="">
-          <img className="w-[700px] h-[400px]" src={data?.image} alt="" />
-          <div className="bg-[#FAFDF1] rounded-2xl my-10 py-10 text-center">
-            <h2 className="text-2xl font-semibold">Instructor Info</h2>
-            <h2 className="text-xl font-bold my-3">Name: {data?.instructorName}</h2>
-            <a href={data?.instructorEmail}>{data?.instructorEmail}</a>
-          </div>
-        </div>
-      </div>
+  </div>
+</div>
     </Container>
   );
 };
