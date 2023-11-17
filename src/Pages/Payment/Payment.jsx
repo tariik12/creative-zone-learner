@@ -1,113 +1,124 @@
-
-
-
-
 import { useForm } from "react-hook-form";
-import { useContext } from "react";
-
-import moment from "moment/moment";
+import { useContext, useEffect, useState, useMemo } from "react";
+import { useParams } from "react-router-dom";
 import { AuthContext } from "../../Provider/AuthProvider";
-// TODO: PROVIDE PUBLISH KEY
 
 const Payment = () => {
-    const {user} = useContext(AuthContext)
-    const { register, handleSubmit,} = useForm();
-   
-    const productData = cart;
-    console.log(productData)
-    const total = cart.reduce((sum, item) => sum + item.price, 0);
-    parseFloat(total.toFixed(2))
-    
-   
+  const { id } = useParams();
+  const [courseDetails, setCourseDetails] = useState(null);
 
-    const onSubmit = (data) =>{    
-        console.log(data)
-        data.price = parseInt(total)
-        if(data){
-          fetch("https://bd-crafts-server.vercel.app/order",{
-            method:'POST',
-            headers:{"content-type":"application/json"},
-            body:JSON.stringify(data)
-        })
-        .then(res => res.json())
-        .then(result =>{
-            window.location.replace(result.url)
-            console.log(result)
-        })
+  useEffect(() => {
+    const fetchCourseDetails = async () => {
+      try {
+        const response = await fetch(`https://creative-zone-learners-servers.vercel.app/createCourse/${id}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
-       
+        const courseDetails = await response.json();
+        setCourseDetails(courseDetails);
+      } catch (error) {
+        console.error('Error fetching course details:', error);
+      }
+    };
+
+    fetchCourseDetails();
+  }, [id]);
+
+  const { user } = useContext(AuthContext) ||{};
+  const { register, handleSubmit } = useForm();
+
+  const memoizedUser = useMemo(() => user, [user]);
+  const total = courseDetails ? parseFloat(courseDetails.courseFee) : 0;
+
+  const onSubmit = (data) => {
+    data.price = parseInt(total);
+    if (data) {
+      fetch("https://creative-zone-learners-servers.vercel.app/admission", {
+        method: 'POST',
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify(data),
+      })
+        .then((res) => res.json())
+        .then((result) => {
+          window.location.replace(result.url);
+          console.log(result);
+        });
     }
-    
+  };
 
-    return (
-        <div>
-           <div className=" container mt-8">
-          
-          <h1 className="text-3xl font-semibold mb-4 text-center">Confirm Order</h1>
-          <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md mx-auto">
-            <div className="mb-4">
-              <input
-                type="text"
-                name="buyerName"
-                defaultValue={user.displayName}
-                placeholder='Your Name'
-                readOnly
-               
-                {...register('buyerName',{ required: true })}
-                className="mt-1 p-2 border rounded w-full"
-              />
-            
-            </div>
-            <div className="mb-4">
-             
-              <input
-                type="email"
-                name="buyerEmail"
-                defaultValue={user.email}
-                placeholder='Your Email'
-                {...register("buyerEmail")}
-                readOnly
-                className="mt-1 p-2 border rounded w-full"
-              />
-            </div>
-          
-            <div className="mb-4">
-             
-             <input
-               type="text"
-               name="confirmTime"
-               readOnly
-               value= { moment(user.date).format('llll')}
-               {...register("confirmTime")}
-               className="mt-1 p-2 border rounded w-full"
-             />
-           </div>
-           <div className="mb-4">
-             
-             <textarea
-               type="text"
-               name="buyerAddress"
-               placeholder='Your Address'
-               {...register("buyerAddress")}
-               className="mt-1 p-2 border rounded w-full"
-               required
-             />
-           </div>
+  if (!courseDetails) {
+    return <p>Loading...</p>;
+  }
 
-            <div className="flex justify-center">
-            <button
-            onClick={onSubmit}
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded "
-            >
-               Confirm Order
-            </button>
-            </div>
-          </form>
-        </div>
-        
-        </div>
-    );
+  return (
+    <div>
+      <div className=" container mt-8">
+        <h1 className="text-3xl font-semibold mb-4 text-center text-orange-500">Admission Confirm</h1>
+        <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-md mx-auto">
+          {/* ... rest of your form */}
+          <div>
+                  <label
+                    htmlFor="studentEmail"
+                    className="block text-sm font-medium leading-6 text-orange-900"
+                  >
+                    Student Email
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      {...register("studentEmail")}
+                      defaultValue={memoizedUser?.email}
+                      id="studentEmail"
+                      name="studentEmail"
+                      type="email"
+                      readOnly
+                      required
+                      className="block w-full rounded-md border-0  text-orange-900 px-2 py-3 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-orange-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+          <div>
+                  <label
+                    htmlFor="studentName"
+                    className="block text-sm font-medium leading-6 text-orange-900"
+                  >
+                    Student Name
+                  </label>
+                  <div className="mt-2">
+                    <input
+                      {...register("studentName")}
+                      id="studentName"
+                      name="studentName"
+                      type="text"
+                      required
+                      className="block w-full rounded-md border-0  text-orange-900 px-2 py-3 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-orange-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+                </div>
+                <div className="mt-2">
+                    <textarea
+                      {...register("studentAddress")}
+                      id="studentAddress"
+                      name="studentAddress"
+                      type="text"
+                      required
+                      className="block w-full rounded-md border-0  text-orange-900 px-2 py-3 shadow-sm ring-1 ring-inset ring-orange-300 placeholder:text-orange-400 focus:ring-2 focus:ring-inset focus:ring-orange-600 sm:text-sm sm:leading-6"
+                    />
+                  </div>
+          {/* ... rest of the form */}
+          <div className="flex justify-center mt-6">
+          <div>
+                  <button
+                    type="submit"
+                    className="flex w-full justify-center rounded-md bg-orange-600 px-3  text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-600"
+                  >
+                    Admission Confirm
+                  </button>
+                </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 };
 
 export default Payment;

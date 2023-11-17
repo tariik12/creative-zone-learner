@@ -19,6 +19,9 @@ import SelectedClasses from "../Components/Dashboard/DsahboardComponent/Selected
 import Error from "../Pages/Error/Error";
 import SingleCourseDetails from "../Pages/OurCourses/SingleCourseDetails";
 import EditSingleCourse from "../Components/Dashboard/DsahboardComponent/Course/ManageCourse/EditSingleCourse";
+import Payment from "../Pages/Payment/Payment";
+import PaymentSuccess from "../Pages/Payment/PaymentSucess";
+import PaymentError from "../Pages/Payment/PaymentError";
 
 
 export const router = createBrowserRouter([
@@ -41,6 +44,10 @@ export const router = createBrowserRouter([
       {
         path: "/our-courses/:id",
         element: <SingleCourseDetails />,
+      },
+      {
+        path: "/payment/:id",
+        element: <Payment />,
       },
       {
         path: "/dashboard/manageCourse/:id",
@@ -94,6 +101,14 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/paymentHistory",
         element: <PaymentHistory />,
+      },
+      {
+        path: "/dashboard/paymentSuccess",
+        element: <PaymentSuccess />,
+      },
+      {
+        path: "/dashboard/paymentError",
+        element: <PaymentError />,
       },
       {
         path: "/dashboard/messageWithInstructors",

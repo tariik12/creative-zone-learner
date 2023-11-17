@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Container from "../../Components/Shared/Container/Container";
-import {  useParams } from "react-router-dom";
+import {  Link, useParams } from "react-router-dom";
 import "@smastrom/react-rating/style.css";
 import { Rating } from "@smastrom/react-rating";
 import img1 from '../../assets/courses/singlecourse/img1.png'
@@ -114,7 +114,10 @@ const SingleCourseDetails = () => {
 
           <div className="flex gap-2 md:justify-stretch justify-center">
             <div>
-              <button>Admission</button>
+            <Link to={`/payment/${courseDetails._id}`}>
+            <button>Admission</button>
+</Link>
+              
               <Rating
                 className="mt-2"
                 style={{ maxWidth: 70 }}

@@ -15,6 +15,21 @@ const OurCourses = () => {
   const [error, setError] = useState(null);
   const [filterData, setFilterData] = useState([]);
 
+  const handleAddCard = (cor) => {
+   
+    cor.fevEmail = email
+    console.log(cor)
+    axios
+    .post("https://creative-zone-learners-servers.vercel.app/fevCourse", cor)
+    .then((res) => {
+      console.log(res.data);
+      alert("done");
+     
+    });
+ 
+   
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -95,7 +110,7 @@ const OurCourses = () => {
                   
                 </div>
                 <div className=" flex justify-center items-center gap-4">
-                <button>Add Card</button>
+                <button onClick={()=>handleAddCard(course)}>Add Card</button>
                   <Link to={`/our-courses/${course._id}`}>
   <button>Course Details</button>
 </Link>
