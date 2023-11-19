@@ -1,5 +1,4 @@
 
-import { Toaster, toast } from "react-hot-toast";
 import { Link, useParams } from "react-router-dom";
 
 const PaymentSuccess = () => {
@@ -8,7 +7,7 @@ const PaymentSuccess = () => {
     return (
         <>
             <div className="bg-gray-800 max-w-lg mx-auto p-10 my-40 rounded">
-                <Toaster />
+               
                 <h1 className="text-green-600">Payment Successful</h1>
                 <p>Transaction ID: {transactionID}</p>
 
