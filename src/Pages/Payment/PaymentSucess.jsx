@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 
 const PaymentSuccess = () => {
     const { transactionID } = useParams()
-    toast.success("payment Successful")
+   
     return (
         <>
             <div className="bg-gray-800 max-w-lg mx-auto p-10 my-40 rounded">
