@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import DropdownUser from "../../Dropdown/DropdownUser/DropdownUser";
 import { AuthContext } from "../../../Provider/AuthProvider";
@@ -7,16 +7,21 @@ import { AuthContext } from "../../../Provider/AuthProvider";
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(false);
-  const {user} = useContext(AuthContext)|| {}
- 
+  const { user } = useContext(AuthContext) || {}
+  const location = useLocation()
+const activeRoute = location.pathname;
+
+  const isActiveRoute = (route) => {
+    return activeRoute === route ? "active-link" : ''
+  }
   return (
-    <div className="w-full">
+    <div className="w-full sticky top-0 ">
       <nav className="w-full bg-white shadow">
         <div className="justify-between px-4 mx-auto lg:max-w-screen-2xl md:items-center md:flex md:px-8">
           <div>
-            <div className="flex items-center justify-between py-3 md:py-5 md:block">
+            <div className="flex items-center active-link justify-between py-3 md:py-5 md:block">
               <Link to="/">
-                <h2 className="text-2xl font-bold">Creative Zone</h2>
+                <h2  className="text-2xl font-bold">Creative Zone</h2>
               </Link>
               <div className="md:hidden">
                 <button
@@ -58,44 +63,32 @@ const Navbar = () => {
           </div>
           <div>
             <div
-              className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${
-                navbar ? "block" : "hidden"
-              }`}
+              className={`flex-1 justify-self-center pb-3 mt-8 md:block md:pb-0 md:mt-0 ${navbar ? "block" : "hidden"
+                }`}
             >
               <ul className="items-center text-lg justify-center space-y-8 md:flex md:space-x-6 md:space-y-0">
-                <li className="text-gray-600 hover:text-orange-600">
-                  <Link to="/">Home</Link>
+                <li className="text-gray-600 ">
+                  <Link className={`nav-link md:text-xl font-bold ${isActiveRoute('/')}`} to="/">Home</Link>
                 </li>
-                <li className="text-gray-600 hover:text-orange-600">
-                  <Link to="/our-courses">Our Courses</Link>
+                <li >
+                  <Link className={`nav-link md:text-xl font-bold ${isActiveRoute('/our-courses')}`} to="/our-courses">Our Courses</Link>
                 </li>
-                <li className="text-gray-600 hover:text-orange-600">
-                  <Link to="/about-us">About US</Link>
+                <li className="">
+                  <Link className={`nav-link text-xl font-bold ${isActiveRoute('/about-us')}`} to="/about-us">About US</Link>
                 </li>
-                <li className="text-gray-600 hover:text-orange-600">
-                  <Link to="/contact">Contact US</Link>
-                </li>
-                {user ? (
-                  <div className="flex lg:hidden">
-                    <DropdownUser />
-                  </div>
-                ) : (
-                  <li className="text-gray-600 hover:text-orange-600">
-                    <Link className="flex lg:hidden" to="/login">
-                      Login
-                    </Link>
-                  </li>
-                )}
+                <li className="">
+                  <Link className={`nav-link text-xl font-bold ${isActiveRoute('/contact')}`} to="/contact">Contact US</Link>
+                </li>            
               </ul>
             </div>
           </div>
           {user ? (
-            <div className="hidden lg:flex">
+            <div className="lg:flex">
               <DropdownUser />
             </div>
           ) : (
             <Link to="/login">
-              <button className="hidden lg:flex">Login</button>
+              <button className="lg:flex">Login</button>
             </Link>
           )}
         </div>
