@@ -103,7 +103,7 @@ export const router = createBrowserRouter([
         element: <PaymentHistory />,
       },
       {
-        path: "/dashboard/paymentSuccess",
+        path: "/dashboard/paymentSuccess/:id",
         element: <PaymentSuccess />,
       },
       {
