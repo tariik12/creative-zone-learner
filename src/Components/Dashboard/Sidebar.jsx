@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from "react-router-dom";
 import SidebarLinkGroup from "./SidebarLinkGroup";
 import axios from 'axios';
 import { AuthContext } from "../../Provider/AuthProvider";
+import SingleClasses from "./MyClass/SingleClasses";
 
 const Sidebar = ({sidebarOpen, setSidebarOpen}) => {
     const location = useLocation();
@@ -65,6 +66,38 @@ useEffect(() =>{
       document.querySelector('body')?.classList.remove('sidebar-expanded');
     }
   }, [sidebarExpanded]);
+
+  const [classes, setClasses] = useState([]);
+  const [loading, setLoading] = useState()
+const [filterData, setFilterData] = useState();
+
+  useEffect(()=>{
+    const fetchData = async()=>{
+      try{
+        setLoading(true);
+        const response = await axios.get('https://creative-zone-learners-servers.vercel.app/createCourse/');
+        setClasses(response.data)
+        setFilterData(response.data)
+      }catch(error){
+console.log("Error Fetching Class data");
+      }finally{
+        setLoading(false)
+      }
+    }
+    if(email !=="instructor"){
+      fetchData();
+    }
+  }, [email])
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  const classesName = [...new Set(classes.map(cls =>cls.category) )]
+
+  const handleFiltering =(category)=>{
+    const filteredData = classes.filter(({category:classesCategory}) =>classesCategory===category)
+    setFilterData(filteredData)
+  }
         return (
             <aside
             ref={sidebar}
@@ -536,42 +569,10 @@ useEffect(() =>{
                   </>
                   :
                   <> 
+                 
                     <ul className="mb-6 flex flex-col gap-1.5">
-                    {/* <!-- Menu Item Dashboard --> */}
-                    
-                    {/* <!-- Menu Item Dashboard --> */}
-                  {/* <li>
-                  <Link
-                        to="/dashboard/selectedClass"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out  dark:hover:bg-meta-4 ${
-                          pathname.includes('selectedClass') && ' dark:bg-meta-4'
-                        }`}
-                      >
-                       favorite courses
-                      </Link>
-                  </li> */}
-                  {/* <li>
-                  <Link
-                        to="/dashboard/messageWithInstructors"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out  dark:hover:bg-meta-4 ${
-                          pathname.includes('messageWithInstructors') && ' dark:bg-meta-4'
-                        }`}
-                      >
-                       
-                   Message with instructor
-                      </Link>
-                  </li> */}
-                  {/* <li>
-                  <Link
-                        to="/dashboard/paymentHistory"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium  duration-300 ease-in-out  dark:hover:bg-meta-4 ${
-                          pathname.includes('paymentHistory') && ' dark:bg-meta-4'
-                        }`}
-                      >
-                       Payment History
-                     
-                      </Link>
-                  </li> */}
+
+                   
                   </ul>
                   </>
                   }                 
