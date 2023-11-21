@@ -20,8 +20,9 @@ import Error from "../Pages/Error/Error";
 import SingleCourseDetails from "../Pages/OurCourses/SingleCourseDetails";
 import EditSingleCourse from "../Components/Dashboard/DsahboardComponent/Course/ManageCourse/EditSingleCourse";
 import Payment from "../Pages/Payment/Payment";
-import PaymentSuccess from "../Pages/Payment/PaymentSucess";
 import PaymentError from "../Pages/Payment/PaymentError";
+import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
+
 
 
 export const router = createBrowserRouter([
