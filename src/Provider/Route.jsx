@@ -21,7 +21,9 @@ import SingleCourseDetails from "../Pages/OurCourses/SingleCourseDetails";
 import EditSingleCourse from "../Components/Dashboard/DsahboardComponent/Course/ManageCourse/EditSingleCourse";
 import Payment from "../Pages/Payment/Payment";
 import PaymentError from "../Pages/Payment/PaymentError";
-import PaymentSuccess from "../Pages/Payment/PaymentSuccess";
+import PaymentSuccess from "../Pages/Payment/PaymentSucess";
+import MyClass from "../Components/Dashboard/MyClass/MyClass";
+import SingleClasses from "../Components/Dashboard/MyClass/SingleClasses";
 
 
 
@@ -127,4 +129,12 @@ export const router = createBrowserRouter([
     path: "*",
     element: <Error />,
   },
+  {
+    path:'/myClass',
+    element:<MyClass/>
+  },
+  {
+path:'/single_classes',
+element:<SingleClasses/>
+  }
 ]);

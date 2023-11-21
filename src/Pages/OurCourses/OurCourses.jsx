@@ -16,18 +16,16 @@ const OurCourses = () => {
   const [filterData, setFilterData] = useState([]);
 
   const handleAddCard = (cor) => {
-   
-    cor.fevEmail = email
-    console.log(cor)
-    axios
-    .post("https://creative-zone-learners-servers.vercel.app/fevCourse", cor)
-    .then((res) => {
-      console.log(res.data);
-      alert("done");
-     
-    });
- 
-   
+    cor.fevEmail = email;
+    console.log(cor);
+
+    // Perform the axios request only if email is present
+    email && axios
+      .post("https://creative-zone-learners-servers.vercel.app/fevCourse", cor)
+      .then((res) => {
+        console.log(res.data);
+        alert("done");
+      });
   };
 
   useEffect(() => {
@@ -45,7 +43,7 @@ const OurCourses = () => {
       }
     };
 
-    if (email) {
+    if (email || !email) {
       fetchData();
     }
   }, [email]);
