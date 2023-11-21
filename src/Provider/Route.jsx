@@ -70,7 +70,12 @@ export const router = createBrowserRouter([
         path: "/studnet_or_instructor",
         element: <QuePart />,
       },
+      {
+        path: "/paymentSuccess/:id",
+        element: <PaymentSuccess />,
+      },
     ],
+    
   },
   {
     path: "/dashboard",
@@ -102,10 +107,7 @@ export const router = createBrowserRouter([
         path: "/dashboard/paymentHistory",
         element: <PaymentHistory />,
       },
-      {
-        path: "/dashboard/paymentSuccess/:id",
-        element: <PaymentSuccess />,
-      },
+      
       {
         path: "/dashboard/paymentError",
         element: <PaymentError />,
