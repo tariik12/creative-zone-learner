@@ -17,6 +17,8 @@ const PopularCoursesCard = ({ data, currentPage, pageSize }) => {
       .then((res) => {
         console.log(res.data);
         alert("done");
+        alert("done");
+        alert("done");
       });
   };
 
