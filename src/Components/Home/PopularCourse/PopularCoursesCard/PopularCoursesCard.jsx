@@ -16,9 +16,6 @@ const PopularCoursesCard = ({ data, currentPage, pageSize }) => {
       .post("https://creative-zone-learners-servers.vercel.app/fevCourse", cor)
       .then((res) => {
         console.log(res.data);
-        alert("done");
-        alert("done");
-        alert("done");
       });
   };
 
