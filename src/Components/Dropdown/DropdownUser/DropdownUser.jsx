@@ -1,7 +1,8 @@
 import { useContext, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../../Provider/AuthProvider';
-
+import axios from 'axios';
+import { VscSymbolClass } from "react-icons/vsc";
 
 
 
@@ -9,11 +10,28 @@ import { AuthContext } from '../../../Provider/AuthProvider';
 
 const DropdownUser = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const {logOut} = useContext(AuthContext) || {};
-
+  const {logOut, user} = useContext(AuthContext) || {};
   const trigger = useRef(null);
   const dropdown = useRef(null);
+  const email = user?.email;
+  const [userData,setUserData] = useState({})
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://creative-zone-learners-servers.vercel.app/users/${email}`);
+        setUserData(response.data);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
 
+    if (email) {
+      fetchData();
+    }
+  }, [email]);
+
+  console.log(user)
+  console.log(userData?.role)
   const handleLogOut = () => {
     logOut();
     alert("Baira")
@@ -53,15 +71,8 @@ const DropdownUser = () => {
         className="flex items-center gap-4"
         to="#"
       >
-        <span className="hidden text-right lg:block">
-          <span className="block text-sm font-medium text-black dark:text-white">
-            Thomas Anree
-          </span>
-          <span className="block text-xs">UX Designer</span>
-        </span>
-
         <span className="h-12 w-12 rounded-full">
-          <img src="https://www.freeiconspng.com/thumbs/logo-design/rainbow-logo-design-transparent-0.png" alt="User" />
+          <img className='border rounded-full' src={user.photoURL} alt="User" />
         </span>
 
         <svg
@@ -88,11 +99,34 @@ const DropdownUser = () => {
         ref={dropdown}
         onFocus={() => setDropdownOpen(true)}
         onBlur={() => setDropdownOpen(false)}
-        className={`absolute right-0 mt-4 flex w-[300px] p-3 flex-col rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark ${
+        className={`absolute right-0 mt-4 flex w-[300px] p-3 flex-col rounded-sm border border-stroke bg-white shadow-default  ${
           dropdownOpen === true ? 'block' : 'hidden'
         }`}
       >
-        <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 dark:border-strokedark">
+        <ul className="flex flex-col gap-5 border-b border-stroke px-6 py-7.5 ">
+          <li>
+            {userData.role ==="instructor"?
+            <>
+<Link
+              to="/dashboard"
+              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+            >
+             Dashboard
+            </Link>
+            </>
+            :
+            <>
+<Link
+              to="/myClass"
+              className="flex items-center gap-3.5 text-sm font-medium duration-300 ease-in-out hover:text-primary lg:text-base"
+            >
+              <VscSymbolClass className='text-xl' />
+            My Course
+            </Link>
+            </>
+          }
+            
+          </li>
           <li>
             <Link
               to="/dashboard/profile"

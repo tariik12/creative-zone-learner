@@ -20,8 +20,11 @@ import Error from "../Pages/Error/Error";
 import SingleCourseDetails from "../Pages/OurCourses/SingleCourseDetails";
 import EditSingleCourse from "../Components/Dashboard/DsahboardComponent/Course/ManageCourse/EditSingleCourse";
 import Payment from "../Pages/Payment/Payment";
-import PaymentSuccess from "../Pages/Payment/PaymentSucess";
 import PaymentError from "../Pages/Payment/PaymentError";
+import PaymentSuccess from "../Pages/Payment/PaymentSucess";
+import MyClass from "../Components/Dashboard/MyClass/MyClass";
+import SingleClasses from "../Components/Dashboard/MyClass/SingleClasses";
+
 
 
 export const router = createBrowserRouter([
@@ -70,7 +73,12 @@ export const router = createBrowserRouter([
         path: "/studnet_or_instructor",
         element: <QuePart />,
       },
+      {
+        path: "/paymentSuccess/:id",
+        element: <PaymentSuccess />,
+      },
     ],
+    
   },
   {
     path: "/dashboard",
@@ -102,10 +110,7 @@ export const router = createBrowserRouter([
         path: "/dashboard/paymentHistory",
         element: <PaymentHistory />,
       },
-      {
-        path: "/dashboard/paymentSuccess",
-        element: <PaymentSuccess />,
-      },
+      
       {
         path: "/dashboard/paymentError",
         element: <PaymentError />,
@@ -124,4 +129,12 @@ export const router = createBrowserRouter([
     path: "*",
     element: <Error />,
   },
+  {
+    path:'/myClass',
+    element:<MyClass/>
+  },
+  {
+path:'/single_classes',
+element:<SingleClasses/>
+  }
 ]);
