@@ -99,7 +99,6 @@ const PopularCourse = () => {
 
   let categories = categorizedData;
 
-  console.log(categories);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -107,9 +106,9 @@ const PopularCourse = () => {
 
   return (
     <Container>
-      <div className="bg-[#FAF9FD] p-14 my-10 rounded-2xl">
+      <div className="bg-[#FAF9FD] md:p-14 my-10 rounded-2xl">
         <h2 className="text-3xl font-bold text-center">Popular Courses</h2>
-        <p className="my-3 w-1/2 mx-auto text-center">
+        <p className="my-3 lg:w-1/2 mx-auto text-center">
           We have designed our courses with the most demanding professional
           skills. The knowledge, experience, and expertise gained through the
           program will ensure your desired job in the global market. From the
@@ -129,8 +128,8 @@ const PopularCourse = () => {
           {/* portfolio section */}
 
           {Object.values(categories).map((data, idx) => (
-            <TabPanel key={idx} className="flex flex-col justify-center">
-              <div className=" grid md:grid-cols-3 xl:grid-cols-4 grid-cols-1 md:gap-6 gap-3">
+            <TabPanel key={idx} className="">
+              <div className=" grid grid-cols-1 md:gap-6 gap-3">
                 <PopularCoursesCard
                   data={data}
                   currentPage={currentPage}
