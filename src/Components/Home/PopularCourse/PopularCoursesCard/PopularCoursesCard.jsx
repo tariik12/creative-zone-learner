@@ -7,24 +7,21 @@ import { paginate } from "../../../Shared/Pagination/Paginate";
 
 const PopularCoursesCard = ({ data, currentPage, pageSize }) => {
   const paginatePosts = paginate(data, currentPage, pageSize);
-  console.log(data);
 
   const handleAddCard = (cor) => {
     cor.fevEmail = email;
-    console.log(cor);
     axios
       .post("https://creative-zone-learners-servers.vercel.app/fevCourse", cor)
       .then((res) => {
-        console.log(res.data);
       });
   };
 
   return (
     <div>
-      <section className="inline-flex">
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {paginatePosts.map((course) => (
           <div
-            className="rounded-xl shadow-md lg:w-[400px]  border-2"
+            className="rounded-xl shadow-md w-full lg:max-w-[400px]  border-2"
             key={course._id}
           >
             <img
