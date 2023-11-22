@@ -1,86 +1,53 @@
-
-import React, { useContext, useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
-
-import '@smastrom/react-rating/style.css';
-import { AuthContext } from "../../../Provider/AuthProvider";
 import Container from "../../Shared/Container/Container";
 
-// const single_class = [
-//     {
-//         name:"class 1 about html css"
-//     }
-// ]
+const singleClass5 = [
+  {
+    name: "HTML5 Class",
+    video: 'https://www.youtube.com/embed/b4Rlq3KTSik?si=aLLQRaPmZgPmSuzw'
+  },
+  {
+    name: "CSS3 Class",
+    video: 'https://www.youtube.com/embed/bHHuozuq_Kk?si=1WsBsZoGpqVS1mlV'
+  },
+  {
+    name: "JavaScript Class",
+    video: 'https://www.youtube.com/embed/rePN-VFo1Eo?si=8ddudot01MCvFiue'
+  }
+];
+
 const SingleClasses = () => {
-  const { user } = useContext(AuthContext) || {};
-  const email = user?.email;
+  const [filterData, setFilterData] = useState(null);
 
-  const [courses, setCourses] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [filterData, setFilterData] = useState([]);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get("https://creative-zone-learners-servers.vercel.app/createCourse/");
-        setCourses(response.data);
-        setFilterData(response.data);
-      } catch (error) {
-        console.error("Error fetching courses data:", error);
-        setError("Error fetching courses data");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const categories = [...new Set(singleClass5.map(course => course.name))];
 
-    if (email || !email) {
-      fetchData();
-    }
-  }, [email]);
-
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
-  const categories = [...new Set(courses.map(course => course.category))];
-
-  const handleFiltering = (category) => {
-    const filteredData = category === "All"
-      ? courses
-      : courses.filter(({ category: courseCategory }) => courseCategory === category);
+  const handleFiltering = (name) => {
+    const filteredData =name ==="HTML5 Class"?"https://www.youtube.com/embed/b4Rlq3KTSik?si=aLLQRaPmZgPmSuzw": singleClass5.filter(({ name: courseCategory }) => courseCategory === name);
     setFilterData(filteredData);
   };
 
   return (
     <Container>
-      <div className="my-10">
-        <h1 className="text-4xl font-bold text-orange-600">Our Courses</h1>
+      <div className="">
+        <h1 className="text-4xl font-bold text-orange-600 py-6 ">My Classes</h1>
 
-
-        <section >
-          {filterData.map((course) => (
-            <div className="rounded-xl shadow-md w-full sm:w-full md:w-[400px] lg:w-[400px] xl:w-[400px] border-2" key={course._id}>
-              
-              
-            </div>
-          ))}
+        <section className="flex justify-center">
+          <div className="rounded-xl shadow-md w-full sm:w-full md:w-[400px] lg:w-[400px] xl:w-[400px] border-2">
+            {filterData && (
+              <iframe width="560" height="315" src={filterData[0].video} title="YouTube video player"  allowFullScreen></iframe>
+            )}
+          </div>
         </section>
 
-        <section >
-            <ul>
+        <section>
+          <ul>
             {categories.map((category, i) => (
-            <Link to="" className="shadow-xl px-10 py-14" key={i} onClick={() => handleFiltering(category)}><li key={category._id}>{category}</li>
-             
-            </Link>
-          ))}   
-            </ul>
-          
+              <Link to="" className="px-10 py-14" key={i} onClick={() => handleFiltering(category)}>
+                <li key={i}>{category}</li>
+              </Link>
+            ))}
+          </ul>
         </section>
       </div>
     </Container>
