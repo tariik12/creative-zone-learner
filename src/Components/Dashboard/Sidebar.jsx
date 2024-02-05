@@ -17,7 +17,7 @@ const Sidebar = ({sidebarOpen, setSidebarOpen}) => {
       const { user } = useContext(AuthContext) || {};
       const activeRoute = location.pathname;
       const isRouteActive = (route) => {
-        return activeRoute === route ? 'active-link' : '';
+        return activeRoute === route ? 'active-link' : ' ';
       };
     const email = user?.email;
     const [userData,setUserData] = useState({})
